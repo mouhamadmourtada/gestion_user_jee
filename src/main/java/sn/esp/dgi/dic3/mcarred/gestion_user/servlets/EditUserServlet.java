@@ -15,31 +15,31 @@ import java.io.IOException;
 public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        if (id != null && !id.isEmpty()) {
+        if (id != null && !id.isEmpty() && id.matches("\\d+")) {
             Utilisateur utilisateur = UtilisateurDao.find(Integer.parseInt(id));
-            request.setAttribute("utilisateur", utilisateur);
+            if (utilisateur != null) {
+                request.setAttribute("utilisateur", utilisateur);
+                getServletContext().getRequestDispatcher("/WEB-INF/edit.jsp").forward(request, response);
+                return;
+            }
         }
-        getServletContext().getRequestDispatcher("/WEB-INF/edit.jsp").forward(request, response);
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Utilisateur introuvable.");
+        response.sendRedirect("list");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UtilisateurForm form = new UtilisateurForm();
-        Utilisateur utilisateur = form.validateUser(request);
-        String id = request.getParameter("id");
-        if (id != null && !id.isEmpty()) {
-            utilisateur.setId(Integer.parseInt(id));
-        }
+        UtilisateurForm form = new UtilisateurForm(request);
         
-        request.setAttribute("form", form);
-        request.setAttribute("utilisateur", utilisateur);
-
-        if (form.getErreurs().isEmpty()) {
-            UtilisateurDao.modifyUser(utilisateur);
+        if (form.modifier()) {
             HttpSession session = request.getSession();
-            session.setAttribute("successMessage", "L'utilisateur " + utilisateur.getPrenom() + " " + utilisateur.getNom() + " a été modifié avec succès!");
+            session.setAttribute("successMessage", "L'utilisateur " + form.getUtilisateur().getPrenom() + " " + form.getUtilisateur().getNom() + " a été modifié avec succès!");
             response.sendRedirect("list");
         } else {
-            request.setAttribute("errorMessage", "Erreur lors de la modification. Veuillez vérifier les champs.");
+            request.setAttribute("form", form);
+            request.setAttribute("utilisateur", form.getUtilisateur());
+            request.setAttribute("errorMessage", form.getStatusMessage());
             getServletContext().getRequestDispatcher("/WEB-INF/edit.jsp").forward(request, response);
         }
     }

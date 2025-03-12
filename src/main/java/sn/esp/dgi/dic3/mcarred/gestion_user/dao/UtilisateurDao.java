@@ -13,36 +13,56 @@ public class UtilisateurDao {
     }
 
     public static boolean ajouter(Utilisateur utilisateur) {
-        utilisateur.setId(lastId++);
-        utilisateurs.add(utilisateur);
-        return true;
-    }
-
-    public static ArrayList<Utilisateur> lister() {
-        return utilisateurs;
-    }
-
-    public static void modifyUser(Utilisateur user) {
-        for (Utilisateur utilisateur : utilisateurs) {
-            if(utilisateur.getId() == user.getId()) {
-                utilisateur.setNom(user.getNom());
-                utilisateur.setPrenom(user.getPrenom());
-                utilisateur.setLogin(user.getLogin());
-                utilisateur.setPassword(user.getPassword());
-            }
+        try {
+            utilisateur.setId(lastId++);
+            utilisateurs.add(utilisateur);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Erreur lors de l'ajout de l'utilisateur : " + e.getMessage());
+            return false;
         }
     }
 
+    public static ArrayList<Utilisateur> lister() {
+        return new ArrayList<>(utilisateurs); // Retourne une copie de la liste
+    }
+
+    public static boolean updateUser(int id, String prenom, String nom, String login, String password) {
+        try {
+            for (Utilisateur user : utilisateurs) {
+                if (user.getId() == id) {
+                    user.setPrenom(prenom);
+                    user.setNom(nom);
+                    user.setLogin(login);
+                    user.setPassword(password);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la modification de l'utilisateur : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean modifyUser(Utilisateur user) {
+        return updateUser(user.getId(), user.getPrenom(), user.getNom(), user.getLogin(), user.getPassword());
+    }
+
     public static boolean delUser(int userId) {
-        utilisateurs.removeIf(utilisateur -> utilisateur.getId() == userId);
-        return true;
+        try {
+            return utilisateurs.removeIf(utilisateur -> utilisateur.getId() == userId);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
+            return false;
+        }
     }
 
     public static Utilisateur find(int id) {
         for (Utilisateur utilisateur : utilisateurs) {
-            if(utilisateur.getId() == id)
+            if (utilisateur.getId() == id)
                 return utilisateur;
         }
-        return new Utilisateur();
+        return null;
     }
 }

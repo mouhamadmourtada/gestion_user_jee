@@ -103,6 +103,21 @@
                             </p>
                         <% } %>
                     </div>
+
+                    <div>
+                        <label for="passwordBis" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fas fa-lock mr-2"></i>Confirmer le mot de passe
+                        </label>
+                        <input type="password" id="passwordBis" name="passwordBis" required
+                               class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+                                      focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <% if(request.getAttribute("form") != null && ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("passwordBis") != null) { %>
+                            <p class="mt-1 text-sm text-red-600 flex items-center">
+                                <i class="fas fa-exclamation-circle mr-2"></i>
+                                <%= ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("passwordBis") %>
+                            </p>
+                        <% } %>
+                    </div>
                 </div>
 
                 <div class="flex justify-end space-x-3 pt-6">
