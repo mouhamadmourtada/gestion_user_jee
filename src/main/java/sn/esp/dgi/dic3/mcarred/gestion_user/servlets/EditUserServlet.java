@@ -18,6 +18,7 @@ public class EditUserServlet extends HttpServlet {
         if (id != null && !id.isEmpty() && id.matches("\\d+")) {
             Utilisateur utilisateur = UtilisateurDao.find(Integer.parseInt(id));
             if (utilisateur != null) {
+                utilisateur.setPassword("");
                 request.setAttribute("utilisateur", utilisateur);
                 getServletContext().getRequestDispatcher("/WEB-INF/edit.jsp").forward(request, response);
                 return;
