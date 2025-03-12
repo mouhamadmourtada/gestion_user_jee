@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,12 +25,12 @@
 <body class="bg-gradient-to-br from-indigo-50 to-indigo-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md mx-auto">
         <!-- Message d'erreur global -->
-        <% if(request.getAttribute("errorMessage") != null) { %>
+        <c:if test="${not empty errorMessage}">
             <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative form-animation" role="alert">
                 <strong class="font-bold">Erreur!</strong>
-                <span class="block sm:inline"><%= request.getAttribute("errorMessage") %></span>
+                <span class="block sm:inline">${errorMessage}</span>
             </div>
-        <% } %>
+        </c:if>
 
         <div class="bg-white rounded-xl shadow-2xl overflow-hidden form-animation">
             <div class="px-6 py-4 bg-gradient-to-r from-indigo-600 to-indigo-800">
@@ -40,7 +41,7 @@
             </div>
             
             <form action="edit" method="post" class="px-6 py-6 space-y-6">
-                <input type="hidden" name="id" value="<%= ((sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur)request.getAttribute("utilisateur")).getId() %>">
+                <input type="hidden" name="id" value="${utilisateur.id}">
                 
                 <div class="space-y-6">
                     <div>
@@ -50,13 +51,13 @@
                         <input type="text" id="nom" name="nom" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="<%= ((sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur)request.getAttribute("utilisateur")).getNom() %>">
-                        <% if(request.getAttribute("form") != null && ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("nom") != null) { %>
+                               value="${utilisateur.nom}">
+                        <c:if test="${not empty form.erreurs['nom']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                <%= ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("nom") %>
+                                ${form.erreurs['nom']}
                             </p>
-                        <% } %>
+                        </c:if>
                     </div>
 
                     <div>
@@ -66,13 +67,13 @@
                         <input type="text" id="prenom" name="prenom" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="<%= ((sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur)request.getAttribute("utilisateur")).getPrenom() %>">
-                        <% if(request.getAttribute("form") != null && ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("prenom") != null) { %>
+                               value="${utilisateur.prenom}">
+                        <c:if test="${not empty form.erreurs['prenom']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                <%= ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("prenom") %>
+                                ${form.erreurs['prenom']}
                             </p>
-                        <% } %>
+                        </c:if>
                     </div>
 
                     <div>
@@ -82,13 +83,13 @@
                         <input type="text" id="login" name="login" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="<%= ((sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur)request.getAttribute("utilisateur")).getLogin() %>">
-                        <% if(request.getAttribute("form") != null && ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("login") != null) { %>
+                               value="${utilisateur.login}">
+                        <c:if test="${not empty form.erreurs['login']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                <%= ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("login") %>
+                                ${form.erreurs['login']}
                             </p>
-                        <% } %>
+                        </c:if>
                     </div>
 
                     <div>
@@ -98,13 +99,13 @@
                         <input type="password" id="password" name="password" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="<%= ((sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur)request.getAttribute("utilisateur")).getPassword() %>">
-                        <% if(request.getAttribute("form") != null && ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("password") != null) { %>
+                               value="${utilisateur.password}">
+                        <c:if test="${not empty form.erreurs['password']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                <%= ((sn.esp.dgi.dic3.mcarred.gestion_user.forms.UtilisateurForm)request.getAttribute("form")).getErreurs().get("password") %>
+                                ${form.erreurs['password']}
                             </p>
-                        <% } %>
+                        </c:if>
                     </div>
                 </div>
 
