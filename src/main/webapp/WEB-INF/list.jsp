@@ -80,7 +80,7 @@
                         <div>
                             <h1 class="text-3xl font-bold text-white">Liste des utilisateurs</h1>
                             <p class="text-blue-100">
-                                <span class="font-semibold">${utilisateurs.size()}</span> 
+                                <span class="font-semibold"><c:out value="${utilisateurs.size()}"/></span> 
                                 utilisateur<c:if test="${utilisateurs.size() > 1}">s</c:if> 
                                 enregistré<c:if test="${utilisateurs.size() > 1}">s</c:if>
                             </p>
@@ -118,7 +118,7 @@
                                 <tr class="table-row-hover">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-sm font-medium">
-                                            #${user.id}
+                                            #<c:out value="${user.id}"/>
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -126,13 +126,13 @@
                                             <div class="flex-shrink-0 h-10 w-10">
                                                 <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
                                                     <span class="text-white font-medium text-sm">
-                                                        ${fn:substring(user.prenom, 0, 1).toUpperCase()}${fn:substring(user.nom, 0, 1).toUpperCase()}
+                                                        <c:out value="${fn:substring(user.prenom, 0, 1).toUpperCase()}${fn:substring(user.nom, 0, 1).toUpperCase()}"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    ${user.prenom} ${user.nom}
+                                                    <c:out value="${user.prenom}"/> <c:out value="${user.nom}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,17 +140,17 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 py-1 text-sm text-gray-600">
                                             <i class="fas fa-user text-gray-400 mr-1"></i>
-                                            ${user.login}
+                                            <c:out value="${user.login}"/>
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-3">
-                                            <a href="edit?id=${user.id}" 
+                                            <a href="edit?id=<c:out value="${user.id}"/>" 
                                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 flex items-center hover:bg-blue-50 px-3 py-1 rounded-md">
                                                 <i class="fas fa-pen mr-2"></i>
                                                 Modifier
                                             </a>
-                                            <button onclick="confirmDelete(${user.id}, '${user.prenom} ${user.nom}')" 
+                                            <button onclick="confirmDelete(<c:out value="${user.id}"/>, '<c:out value="${user.prenom} ${user.nom}"/>')" 
                                                    class="text-red-600 hover:text-red-900 transition-colors duration-200 flex items-center hover:bg-red-50 px-3 py-1 rounded-md">
                                                 <i class="fas fa-trash-alt mr-2"></i>
                                                 Supprimer

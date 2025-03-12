@@ -28,7 +28,7 @@
         <c:if test="${not empty errorMessage}">
             <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative form-animation" role="alert">
                 <strong class="font-bold">Erreur!</strong>
-                <span class="block sm:inline">${errorMessage}</span>
+                <span class="block sm:inline"><c:out value="${errorMessage}"/></span>
             </div>
         </c:if>
 
@@ -41,7 +41,7 @@
             </div>
             
             <form action="edit" method="post" class="px-6 py-6 space-y-6">
-                <input type="hidden" name="id" value="${utilisateur.id}">
+                <input type="hidden" name="id" value="<c:out value="${utilisateur.id}"/>">
                 
                 <div class="space-y-6">
                     <div>
@@ -51,11 +51,11 @@
                         <input type="text" id="nom" name="nom" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="${utilisateur.nom}">
+                               value="<c:out value="${utilisateur.nom}"/>">
                         <c:if test="${not empty form.erreurs['nom']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                ${form.erreurs['nom']}
+                                <c:out value="${form.erreurs['nom']}"/>
                             </p>
                         </c:if>
                     </div>
@@ -67,11 +67,11 @@
                         <input type="text" id="prenom" name="prenom" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="${utilisateur.prenom}">
+                               value="<c:out value="${utilisateur.prenom}"/>">
                         <c:if test="${not empty form.erreurs['prenom']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                ${form.erreurs['prenom']}
+                                <c:out value="${form.erreurs['prenom']}"/>
                             </p>
                         </c:if>
                     </div>
@@ -83,11 +83,11 @@
                         <input type="text" id="login" name="login" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="${utilisateur.login}">
+                               value="<c:out value="${utilisateur.login}"/>">
                         <c:if test="${not empty form.erreurs['login']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                ${form.erreurs['login']}
+                                <c:out value="${form.erreurs['login']}"/>
                             </p>
                         </c:if>
                     </div>
@@ -99,11 +99,11 @@
                         <input type="password" id="password" name="password" required
                                class="input-field mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
                                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                               value="${utilisateur.password}">
+                               value="<c:out value="${utilisateur.password}"/>">
                         <c:if test="${not empty form.erreurs['password']}">
                             <p class="mt-1 text-sm text-red-600 flex items-center">
                                 <i class="fas fa-exclamation-circle mr-2"></i>
-                                ${form.erreurs['password']}
+                                <c:out value="${form.erreurs['password']}"/>
                             </p>
                         </c:if>
                     </div>
