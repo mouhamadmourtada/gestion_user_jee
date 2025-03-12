@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +38,10 @@
 <body class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <!-- Notification de succès -->
-        <% if(request.getAttribute("successMessage") != null) { %>
+        <c:if test="${not empty successMessage}">
             <div class="notification fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-xl flex items-center space-x-2 z-50">
                 <i class="fas fa-check-circle text-2xl"></i>
-                <p class="font-medium"><%= request.getAttribute("successMessage") %></p>
+                <p class="font-medium">${successMessage}</p>
             </div>
             <script>
                 setTimeout(() => {
@@ -49,13 +51,13 @@
                     setTimeout(() => notification.style.display = 'none', 500);
                 }, 3000);
             </script>
-        <% } %>
+        </c:if>
 
         <!-- Notification d'erreur -->
-        <% if(request.getAttribute("errorMessage") != null) { %>
+        <c:if test="${not empty errorMessage}">
             <div class="notification fixed top-4 right-4 bg-red-500 text-white px-6 py-4 rounded-lg shadow-xl flex items-center space-x-2 z-50">
                 <i class="fas fa-exclamation-circle text-2xl"></i>
-                <p class="font-medium"><%= request.getAttribute("errorMessage") %></p>
+                <p class="font-medium">${errorMessage}</p>
             </div>
             <script>
                 setTimeout(() => {
@@ -65,7 +67,7 @@
                     setTimeout(() => notification.style.display = 'none', 500);
                 }, 3000);
             </script>
-        <% } %>
+        </c:if>
 
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
             <!-- En-tête avec gradient -->
@@ -78,9 +80,9 @@
                         <div>
                             <h1 class="text-3xl font-bold text-white">Liste des utilisateurs</h1>
                             <p class="text-blue-100">
-                                <span class="font-semibold">
-                                    <%= ((java.util.ArrayList)request.getAttribute("utilisateurs")).size() %>
-                                </span> utilisateur<%= ((java.util.ArrayList)request.getAttribute("utilisateurs")).size() > 1 ? "s" : "" %> enregistré<%= ((java.util.ArrayList)request.getAttribute("utilisateurs")).size() > 1 ? "s" : "" %>
+                                <span class="font-semibold">${utilisateurs.size()}</span> 
+                                utilisateur<c:if test="${utilisateurs.size() > 1}">s</c:if> 
+                                enregistré<c:if test="${utilisateurs.size() > 1}">s</c:if>
                             </p>
                         </div>
                     </div>
@@ -112,14 +114,11 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200" id="userTableBody">
-                            <% 
-                            for(sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur user : 
-                                (java.util.ArrayList<sn.esp.dgi.dic3.mcarred.gestion_user.beans.Utilisateur>)request.getAttribute("utilisateurs")) { 
-                            %>
+                            <c:forEach items="${utilisateurs}" var="user">
                                 <tr class="table-row-hover">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-sm font-medium">
-                                            #<%= user.getId() %>
+                                            #${user.id}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -127,13 +126,13 @@
                                             <div class="flex-shrink-0 h-10 w-10">
                                                 <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center">
                                                     <span class="text-white font-medium text-sm">
-                                                        <%= user.getPrenom().substring(0, 1).toUpperCase() %><%= user.getNom().substring(0, 1).toUpperCase() %>
+                                                        ${fn:substring(user.prenom, 0, 1).toUpperCase()}${fn:substring(user.nom, 0, 1).toUpperCase()}
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    <%= user.getPrenom() %> <%= user.getNom() %>
+                                                    ${user.prenom} ${user.nom}
                                                 </div>
                                             </div>
                                         </div>
@@ -141,17 +140,17 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 py-1 text-sm text-gray-600">
                                             <i class="fas fa-user text-gray-400 mr-1"></i>
-                                            <%= user.getLogin() %>
+                                            ${user.login}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-3">
-                                            <a href="edit?id=<%= user.getId() %>" 
+                                            <a href="edit?id=${user.id}" 
                                                class="text-blue-600 hover:text-blue-900 transition-colors duration-200 flex items-center hover:bg-blue-50 px-3 py-1 rounded-md">
                                                 <i class="fas fa-pen mr-2"></i>
                                                 Modifier
                                             </a>
-                                            <button onclick="confirmDelete(<%= user.getId() %>, '<%= user.getPrenom() %> <%= user.getNom() %>')" 
+                                            <button onclick="confirmDelete(${user.id}, '${user.prenom} ${user.nom}')" 
                                                    class="text-red-600 hover:text-red-900 transition-colors duration-200 flex items-center hover:bg-red-50 px-3 py-1 rounded-md">
                                                 <i class="fas fa-trash-alt mr-2"></i>
                                                 Supprimer
@@ -159,7 +158,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            <% } %>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
