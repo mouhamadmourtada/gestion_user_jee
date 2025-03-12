@@ -65,4 +65,11 @@ public class UtilisateurDao {
         }
         return null;
     }
+
+    public Utilisateur authentifier(String login, String password) {
+        return utilisateurs.stream()
+                .filter(u -> u.getLogin().equals(login) && u.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
 }
