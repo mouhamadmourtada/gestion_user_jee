@@ -31,8 +31,8 @@
     <jsp:param name="title" value="${title}" />
 </jsp:include>
 
-<div class="h-full max-w-md w-full space-y-8 mx-auto flex items-center justify-center">
-    <div class="mx-auto bg-red-100">
+<div class="h-full w-full space-y-8 mx-auto flex items-center justify-center">
+    <div class="mx-auto" style = "min-width: 400px;">
         <!-- Message d'erreur -->
         <c:if test="${not empty errorMessage}">
             <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative form-animation" role="alert">
