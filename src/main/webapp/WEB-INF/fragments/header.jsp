@@ -24,10 +24,32 @@
         .dropdown-menu {
             display: none;
         }
-        .dropdown:hover .dropdown-menu {
+        .dropdown-menu.show {
             display: block;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownButton = document.querySelector('.dropdown-button');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            // Fonction pour ouvrir/fermer le menu
+            function toggleDropdown(event) {
+                event.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            }
+
+            // Gestionnaire de clic sur le bouton
+            dropdownButton.addEventListener('click', toggleDropdown);
+
+            // Fermer le menu si on clique en dehors
+            document.addEventListener('click', function(event) {
+                if (!dropdownButton.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
     <!-- Navbar -->
@@ -47,7 +69,7 @@
                     <c:if test="${not empty sessionScope.utilisateur}">
                         <!-- Dropdown pour le profil -->
                         <div class="ml-3 relative dropdown">
-                            <div class="flex items-center cursor-pointer">
+                            <div class="flex items-center cursor-pointer dropdown-button">
                                 <div class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center">
                                     <span class="text-white font-bold">
                                         ${fn:substring(sessionScope.utilisateur.prenom, 0, 1)}${fn:substring(sessionScope.utilisateur.nom, 0, 1)}
@@ -60,7 +82,7 @@
                             </div>
                             
                             <!-- Menu déroulant -->
-                            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                                 <a href="profil" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <i class="fas fa-user-circle mr-2"></i>Mon Profil
                                 </a>
@@ -76,8 +98,8 @@
         </div>
     </nav>
 
-    <!-- Contenu principal -->
-    <div class="py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Contenu principal avec padding supplémentaire en bas pour le footer -->
+    <div class="py-12 px-4 sm:px-6 lg:px-8 pb-20">
 <!-- </div> -->
 <!-- </body>
 </html> -->
